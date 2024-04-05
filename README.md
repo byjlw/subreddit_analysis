@@ -1,2 +1,76 @@
-# subreddit_analysis
-Scripts for analyzing a subreddit 
+# Reddit Data Extractor README
+
+## Overview
+
+The Reddit Data Extractor is a Python script designed for fetching posts and comments from a specified subreddit. This tool is particularly useful for researchers, marketers, and community managers looking to analyze subreddit content without manually collecting data.
+
+## Features
+
+- Extracts post titles, bodies (or content URLs for non-text posts), and comments, along with the authors' usernames.
+- Customizable limits for the number of posts and comments to fetch.
+- Outputs data to a specified text file, with an option for default naming.
+- Command-line arguments for easy configuration of subreddit, limits, output file name, and Reddit API credentials.
+
+## Prerequisites
+
+Before running this script, ensure you have:
+
+- Python 3 installed on your system.
+- PRAW (Python Reddit API Wrapper) library installed. Install via pip if not already done:`pip install praw`
+- Valid Reddit API credentials (`client_id`, `client_secret`, and `user_agent`). Follow the instructions below to obtain these.
+
+## Obtaining Reddit API Credentials
+
+1. **Create or log in to your Reddit account.**
+
+2. **Navigate to the Reddit apps page** by going to [https://www.reddit.com/prefs/apps](https://www.reddit.com/prefs/apps).
+
+3. **Create a new application** by clicking on the "Create App" or "Create Another App" button at the bottom.
+
+4. **Fill out the form** with the required details:
+ - Name: Give your application a name.
+ - App type: Select "script".
+ - Description: (Optional) A brief description.
+ - About URL: (Optional) URL for your app.
+ - Redirect URI: Use `http://localhost` for a script application.
+
+5. **Note your `client_id` and `client_secret`** once the app is created. The `client_id` is found under the app name. The `client_secret` is labeled as such.
+
+6. **Set your User Agent**, which should include the name of your app and a version number, e.g., `my_reddit_app/0.1`.
+
+## Installation
+
+1. **Clone or download the script** to your local machine.
+
+2. **Install PRAW** if you haven't already: `pip install praw`
+
+3. **Ensure you have your Reddit API credentials ready.**
+
+## Usage
+
+Execute the script from the command line, using named arguments for flexibility and clarity. Here’s the syntax:
+
+```
+python reddit_extractor.py --subreddit <subreddit_name> --client_id <your_client_id> --client_secret <your_client_secret> [options]
+```
+### Required Arguments
+
+- `--subreddit`: The name of the subreddit from which to extract data.
+- `--client_id`: Your Reddit API client ID.
+- `--client_secret`: Your Reddit API client secret.
+
+### Optional Arguments
+
+- `--posts_limit`: The number of posts to fetch (default is 10).
+- `--comments_limit`: The number of comments to fetch per post (default fetches all comments).
+- `--output_filename`: The name of the output file (default is `
+
+```
+python reddit_extractor.py --subreddit books --posts_limit 5 --comments_limit 20 --output_filename books_data.txt --client_id YOUR_CLIENT_ID --client_secret YOUR_CLIENT_SECRET
+```
+
+## Note
+
+- Replace placeholder values with actual data.
+- Adhere to Reddit's API rate limits and guidelines to prevent access issues.
+- Keep your client secret secure and comply with Reddit's user agreement and privacy policies.
