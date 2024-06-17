@@ -80,7 +80,7 @@ python reddit_extractor.py --subreddit books --posts_limit 5 --comments_limit 20
 
 If you used the defaults above you'll end up with a file with posts and comments in the data directory. The defaults will look in that directory
 ```
-python reddit_data_analyzer.py --prompt "what do the members care about?"
+python analyze.py --prompt "what do the members care about?"
 ```
 
 **Required Arguments**
