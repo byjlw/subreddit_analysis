@@ -16,7 +16,15 @@ The Reddit Data Extractor is a Python script designed for fetching posts and com
 Before running this script, ensure you have:
 
 - Python 3 installed on your system.
-- PRAW (Python Reddit API Wrapper) library installed. Install via pip if not already done:`pip install praw`
+- [Ollama installed on your system](https://ollama.com/downloads)
+- PRAW (Python Reddit API Wrapper) library installed. Install via pip if not already done:
+```
+pip install praw
+```
+- [llama index](https://github.com/run-llama/llama_index/tree/main)
+```
+pip install llama-index-core llama-index-readers-file llama-index-llms-ollama llama-index-embeddings-huggingface
+```
 - Valid Reddit API credentials (`client_id`, `client_secret`, and `user_agent`). Follow the instructions below to obtain these.
 
 ## Obtaining Reddit API Credentials
@@ -42,32 +50,52 @@ Before running this script, ensure you have:
 
 1. **Clone or download the script** to your local machine.
 
-2. **Install PRAW** if you haven't already: `pip install praw`
-
-3. **Ensure you have your Reddit API credentials ready.**
+2. **Ensure you have your Reddit API credentials ready.**
 
 ## Usage
 
-Execute the script from the command line, using named arguments for flexibility and clarity. Here’s the syntax:
+### Pull data from Reddit
+Execute the script from the command line,
 
 ```
 python reddit_extractor.py --subreddit <subreddit_name> --client_id <your_client_id> --client_secret <your_client_secret> [options]
 ```
-### Required Arguments
+**Required Arguments**
 
 - `--subreddit`: The name of the subreddit from which to extract data.
 - `--client_id`: Your Reddit API client ID.
 - `--client_secret`: Your Reddit API client secret.
 
-### Optional Arguments
+**Optional Arguments**
 
 - `--posts_limit`: The number of posts to fetch (default is 10).
 - `--comments_limit`: The number of comments to fetch per post (default fetches all comments).
-- `--output_filename`: The name of the output file (default is `
+- `--output_filename`: The name of the output file (default: data/<subreddit>.txt)')`
 
 ```
-python reddit_extractor.py --subreddit books --posts_limit 5 --comments_limit 20 --output_filename books_data.txt --client_id YOUR_CLIENT_ID --client_secret YOUR_CLIENT_SECRET
+python reddit_extractor.py --subreddit books --posts_limit 5 --comments_limit 20 --client_id YOUR_CLIENT_ID --client_secret YOUR_CLIENT_SECRET
 ```
+
+## Analyze using llama index and Ollama
+
+If you used the defaults above you'll end up with a file with posts and comments in the data directory. The defaults will look in that directory
+```
+python reddit_data_analyzer.py --prompt "what do the members care about?"
+```
+
+**Required Arguments**
+
+- `--prompt`: Query or prompt to use to query the index (required)
+
+**Optional Arguments**
+
+- `--data_dir`: Directory containing Reddit data text files (default: data)
+
+- `--embed_model`: Hugging Face embedding model to use (default: BAAI/bge-base-en-v1.5)
+
+- `--llm_model_name`: OLLAMA LLM model name to use (default: llama3:70b)
+
+- `--timeout`: Request timeout against OLLAMA (default: 360.0 seconds)
 
 ## Note
 

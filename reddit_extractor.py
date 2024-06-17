@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser(description='Reddit Data Extractor Script')
 parser.add_argument('--subreddit', required=True, help='Name of the subreddit')
 parser.add_argument('--posts_limit', type=int, default=10, help='Number of posts to fetch (default: 10)')
 parser.add_argument('--comments_limit', type=int, default=None, help='Number of comments per post (default: all)')
-parser.add_argument('--output_filename', default=None, help='Output filename (default: subreddit_data_with_usernames_<subreddit>.txt)')
+parser.add_argument('--output_filename', default=None, help='Output filename (default: data/<subreddit>.txt)')
 parser.add_argument('--client_id', required=True, help='Reddit API client ID')
 parser.add_argument('--client_secret', required=True, help='Reddit API client secret')
 parser.add_argument('--user_agent', default='data_extractor/0.1', help='Reddit API user agent')
@@ -19,7 +19,7 @@ reddit = praw.Reddit(client_id=args.client_id, client_secret=args.client_secret,
 
 # Subreddit name and output filename
 subreddit_name = args.subreddit
-output_filename = args.output_filename if args.output_filename else f'subreddit_data_with_usernames_{subreddit_name}.txt'
+output_filename = args.output_filename if args.output_filename else f'data/{subreddit_name}.txt'
 
 # Initialize subreddit instance
 subreddit = reddit.subreddit(subreddit_name)
