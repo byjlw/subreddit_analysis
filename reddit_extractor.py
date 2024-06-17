@@ -1,5 +1,6 @@
 import praw
 import argparse
+import os
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description='Reddit Data Extractor Script')
@@ -25,6 +26,10 @@ output_filename = args.output_filename if args.output_filename else f'data/{subr
 subreddit = reddit.subreddit(subreddit_name)
 
 # Extract and save data
+dir_path = os.path.dirname(output_filename)
+if not os.path.exists(dir_path):
+    os.makedirs(dir_path)
+
 with open(output_filename, 'w', encoding='utf-8') as file:
     for post in subreddit.hot(limit=args.posts_limit):
         file.write(f"Title: {post.title} | Posted by: {post.author}\n")
