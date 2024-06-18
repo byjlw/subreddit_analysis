@@ -2,14 +2,22 @@
 
 ## Overview
 
-The Reddit Data Extractor is a Python script designed for fetching posts and comments from a specified subreddit. This tool is particularly useful for researchers, marketers, and community managers looking to analyze subreddit content without manually collecting data.
+The subreddit analysis is a Python project for asking questions about a particular subreddit.
+
+It works by:
+- Ingesting the posts and comments of a particular subreddit
+- Indexing the data
+- Leveraging an LLM to interact with the index
+
+This tool is particularly useful for researchers, marketers, and community managers looking to analyze subreddit content without manually collecting data.
 
 ## Features
 
 - Extracts post titles, bodies (or content URLs for non-text posts), and comments, along with the authors' usernames.
 - Customizable limits for the number of posts and comments to fetch.
-- Outputs data to a specified text file, with an option for default naming.
-- Command-line arguments for easy configuration of subreddit, limits, output file name, and Reddit API credentials.
+- Runs completely local using the LLM and embed model of your choice
+- Indexs the downloaded data + any other data you want included
+- Use prompts to ask questions about the data in the index using Ollama
 
 ## Prerequisites
 
