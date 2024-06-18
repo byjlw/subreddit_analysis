@@ -1,8 +1,8 @@
-# Reddit Data Extractor README
+# Subreddit Analysis
 
 ## Overview
 
-The subreddit analysis is a Python project for asking questions about a particular subreddit.
+Subreddit Analysis is a Python project for asking questions about a particular subreddit.
 
 It works by:
 - Ingesting the posts and comments of a particular subreddit
