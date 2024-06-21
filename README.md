@@ -20,11 +20,16 @@ This tool is particularly useful for researchers, marketers, and community manag
 - Use prompts to ask questions about the data in the index using Ollama
 
 ## Prerequisites
+*note recommend running in a virtual environment*
+```
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
 Before running this script, ensure you have:
 
 - Python 3 installed on your system.
-- [Ollama installed on your system](https://ollama.com/downloads)
+- [Ollama installed on your system](https://ollama.com/download)
 - PRAW (Python Reddit API Wrapper) library installed. Install via pip if not already done:
 ```
 pip install praw
