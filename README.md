@@ -84,6 +84,7 @@ python reddit_extractor.py --subreddit <subreddit_name> --client_id <your_client
 - `--posts_limit`: The number of posts to fetch (default is 10).
 - `--comments_limit`: The number of comments to fetch per post (default fetches all comments).
 - `--output_filename`: The name of the output file (default: data/<subreddit>.txt)')`
+- `--output_format`: Format of the output file. Options: text, json (default: json))`
 
 ```
 python reddit_extractor.py --subreddit books --posts_limit 5 --comments_limit 20 --client_id YOUR_CLIENT_ID --client_secret YOUR_CLIENT_SECRET
