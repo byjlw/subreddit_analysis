@@ -15,6 +15,8 @@ parser.add_argument('--client_id', required=True, help='Reddit API client ID')
 parser.add_argument('--client_secret', required=True, help='Reddit API client secret')
 parser.add_argument('--user_agent', default='data_extractor/0.1', help='Reddit API user agent')
 parser.add_argument('--output_format', default='json', help='Format of the output file. Options: text, json (default: json)')
+parser.add_argument('--submission_id', default=None, help='Get the details for a particular post only')
+
 
 # Parse arguments
 args = parser.parse_args()
@@ -84,8 +86,10 @@ def save_collection_of_posts(posts, output_format, filename, comments_limit=None
                 details = get_post_details(post, 'text', comments_limit)
                 f.write(details + "\n\n" + "-"*80 + "\n\n")
                 time.sleep(random.uniform(0, 1))
-
-save_collection_of_posts(subreddit.hot(limit=args.posts_limit), args.output_format, output_filename)
+if(args.submission_id != None):
+    save_collection_of_posts([reddit.submission(id=args.submission_id)], args.output_format, output_filename)
+else:
+    save_collection_of_posts(subreddit.hot(limit=args.posts_limit), args.output_format, output_filename)
 
 
 print(f"Data extracted and saved to {output_filename}")
