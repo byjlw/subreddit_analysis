@@ -38,7 +38,7 @@ if not os.path.exists(dir_path):
 
 def format_comment_text(comment, depth=0):
     padding = '    ' * depth
-    comment_text = f"{padding}Comment by {comment.author}:\n{padding}    {comment.body}\n"
+    comment_text = f"{padding}Comment by {comment.author} (Upvotes: {comment.score}):\n{padding}    {comment.body}\n"
     # All direct replies to this comment will have the same indentation as the comment itself
     for reply in comment.replies:
         comment_text += format_comment_text(reply, depth + 1)  # Indent replies once from the parent comment
@@ -49,6 +49,7 @@ def format_comment_json(comment):
         'id': comment.id,
         'author': str(comment.author),
         'body': comment.body,
+        'upvotes': comment.score,
         'replies': [format_comment_json(reply) for reply in comment.replies] if hasattr(comment, 'replies') else []
     }
 
