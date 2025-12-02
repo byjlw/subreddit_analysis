@@ -4,6 +4,11 @@ import os
 import time
 import random
 import json
+from datetime import datetime
+
+def format_datetime(utc_timestamp):
+    """Convert UTC timestamp to formatted datetime string"""
+    return datetime.fromtimestamp(utc_timestamp).strftime('%Y-%m-%d %H:%M:%S')
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description='Reddit Data Extractor Script')
@@ -38,7 +43,7 @@ if not os.path.exists(dir_path):
 
 def format_comment_text(comment, depth=0):
     padding = '    ' * depth
-    comment_text = f"{padding}Comment by {comment.author} (Upvotes: {comment.score}):\n{padding}    {comment.body}\n"
+    comment_text = f"{padding}Comment by {comment.author} (Upvotes: {comment.score}, Created: {format_datetime(comment.created_utc)}):\n{padding}    {comment.body}\n"
     # All direct replies to this comment will have the same indentation as the comment itself
     for reply in comment.replies:
         comment_text += format_comment_text(reply, depth + 1)  # Indent replies once from the parent comment
@@ -50,6 +55,7 @@ def format_comment_json(comment):
         'author': str(comment.author),
         'body': comment.body,
         'upvotes': comment.score,
+        'created_datetime': format_datetime(comment.created_utc),
         'replies': [format_comment_json(reply) for reply in comment.replies] if hasattr(comment, 'replies') else []
     }
 
@@ -62,13 +68,14 @@ def process_comments(comment, format_type):
 def get_post_details(post, output_format, comments_limit):
     post.comments.replace_more(limit=None)  # Expands all comments
     if output_format == 'text':
-        details = f"Post Title: {post.title}\nAuthor: {post.author}\n\nPost Text:\n{post.selftext}\n\nComments:\n"
+        details = f"Post Title: {post.title}\nAuthor: {post.author}\nCreated: {format_datetime(post.created_utc)}\n\nPost Text:\n{post.selftext}\n\nComments:\n"
         for comment in post.comments.list():
             details += process_comments(comment, 'text')
     elif output_format == 'json':
         details = {
             'title': post.title,
             'author': str(post.author),
+            'created_datetime': format_datetime(post.created_utc),
             'selftext': post.selftext,
             'comments': [process_comments(comment, 'json') for comment in post.comments.list()]
         }
