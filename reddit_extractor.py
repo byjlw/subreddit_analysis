@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser(description='Reddit Data Extractor Script')
 parser.add_argument('--subreddit', required=True, help='Name of the subreddit')
 parser.add_argument('--posts_limit', type=int, default=10, help='Number of posts to fetch (default: 10)')
 parser.add_argument('--comments_limit', type=int, default=None, help='Number of comments per post (default: all)')
-parser.add_argument('--output_filename', default=None, help='Output filename (default: data/<subreddit>.<format>)')
+parser.add_argument('--output_filename', default=None, help='Output filename; a -<timestamp> suffix is always appended (default: data/<subreddit>-<timestamp>.<format>)')
 parser.add_argument('--client_id', required=True, help='Reddit API client ID')
 parser.add_argument('--client_secret', required=True, help='Reddit API client secret')
 parser.add_argument('--user_agent', default='data_extractor/0.1', help='Reddit API user agent')
@@ -32,6 +32,7 @@ reddit = praw.Reddit(client_id=args.client_id, client_secret=args.client_secret,
 # Subreddit name and output filename
 subreddit_name = args.subreddit
 output_filename = args.output_filename if args.output_filename else f'data/{subreddit_name}'
+output_filename = f"{output_filename}-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
 
 # Initialize subreddit instance
 subreddit = reddit.subreddit(subreddit_name)
@@ -69,7 +70,7 @@ def get_post_details(post, output_format, comments_limit):
     post.comments.replace_more(limit=None)  # Expands all comments
     if output_format == 'text':
         details = f"Post Title: {post.title}\nAuthor: {post.author}\nCreated: {format_datetime(post.created_utc)}\n\nPost Text:\n{post.selftext}\n\nComments:\n"
-        for comment in post.comments.list():
+        for comment in post.comments:
             details += process_comments(comment, 'text')
     elif output_format == 'json':
         details = {
@@ -77,7 +78,7 @@ def get_post_details(post, output_format, comments_limit):
             'author': str(post.author),
             'created_datetime': format_datetime(post.created_utc),
             'selftext': post.selftext,
-            'comments': [process_comments(comment, 'json') for comment in post.comments.list()]
+            'comments': [process_comments(comment, 'json') for comment in post.comments]
         }
     else:
         raise ValueError("Unsupported output format. Use 'text' or 'json'.")
@@ -100,4 +101,4 @@ else:
     save_collection_of_posts(subreddit.hot(limit=args.posts_limit), args.output_format, output_filename)
 
 
-print(f"Data extracted and saved to {output_filename}")
+print(f"Data extracted and saved to {output_filename}.{'txt' if args.output_format == 'text' else 'json'}")
