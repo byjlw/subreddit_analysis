@@ -83,7 +83,7 @@ python reddit_extractor.py --subreddit <subreddit_name> --client_id <your_client
 
 - `--posts_limit`: The number of posts to fetch (default is 10).
 - `--comments_limit`: The number of comments to fetch per post (default fetches all comments).
-- `--output_filename`: The name of the output file (default: data/<subreddit>.txt)'`
+- `--output_filename`: The name of the output file (default: data/<subreddit>-<timestamp>.<format>). A `-YYYYMMDD-HHMMSS` suffix is always appended so repeated runs don't overwrite each other
 - `--output_format`: Format of the output file. Options: text, json (default: json)`
 - `--submission_id`: Get details on just a single post instead of a collection of posts within the subreddit. For the URL `https://www.reddit.com/r/Python/comments/abcdef/some_post_title/`, the submission ID is `abcdef`
 
